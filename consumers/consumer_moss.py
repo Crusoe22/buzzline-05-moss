@@ -49,13 +49,13 @@ from consumers.db_sqlite_case import init_db, insert_message
 
 
 
-def store_categorized_message(message: dict, file_path: str = "cat_message.json"):
+def store_categorized_message(message: dict, file_path: str = "cat_sentiment.json"):
     """
-    Store categorized messages in a JSON file, grouping them by category.
-    
+    Store sentiment scores categorized by message category in a JSON file.
+
     Args:
         message (dict): The processed message.
-        file_path (str): The file path where categorized messages will be stored.
+        file_path (str): The file path where categorized sentiment scores will be stored.
     """
     try:
         # Load existing data if file exists
@@ -64,19 +64,22 @@ def store_categorized_message(message: dict, file_path: str = "cat_message.json"
                 categorized_data = json.load(file)
         else:
             categorized_data = defaultdict(list)
-        
-        # Append message to the respective category
-        category = message.get("category", "uncategorized")
-        categorized_data.setdefault(category, []).append(message)
-        
+
+        # Append only the sentiment score to the respective category
+        category = message.get("category", "uncategorized") # If category is missing defult to uncategorized
+        sentiment_score = message.get("sentiment", 0.0) # Extract sentiment score
+
+
+        #Creates list for sentiment scores
+        categorized_data.setdefault(category, []).append(sentiment_score)
+
         # Save updated data
         with open(file_path, "w", encoding="utf-8") as file:
             json.dump(categorized_data, file, indent=4)
-        
-        logger.info(f"Message stored in category '{category}'.")
-    except Exception as e:
-        logger.error(f"Error storing categorized message: {e}")
 
+        logger.info(f"Sentiment score stored in category '{category}'.")
+    except Exception as e:
+        logger.error(f"Error storing sentiment score: {e}")
 
 
 

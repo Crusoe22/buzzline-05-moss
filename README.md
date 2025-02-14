@@ -1,4 +1,51 @@
-# buzzline-05-case
+# buzzline-05-moss
+
+### New Consumer Added
+This consumer efficiently processes messages, extracts sentiment scores, and stores them in a structured way. By storing only the scores (rather than full messages), it minimizes storage use while keeping sentiment analysis data organized.
+
+
+
+### Activate the Python Virtual Environment
+
+```shell
+
+py -m venv .venv
+.venv\Scripts\Activate
+py -m pip install -r requirements.txt
+
+
+```
+
+### Start Producer and Consumer 
+
+```shell
+.venv\Scripts\activate
+py -m producers.producer_case
+
+
+
+.venv\Scripts\activate
+py -m consumers.consumer_moss
+
+```
+
+### Start WSL Terminal
+
+```shell
+Terminal 1
+
+PS C:\Users\nolan> wsl
+moss@InspironNolan:~$ cd ~/kafka
+moss@InspironNolan:~/kafka$ bin/zookeeper-server-start.sh config/zookeeper.properties
+
+Terminal 2
+
+PS C:\Users\nolan> wsl
+moss@InspironNolan:/mnt/c/Users/nolan$ cd ~/kafka
+moss@InspironNolan:~/kafka$ bin/kafka-server-start.sh config/server.properties
+```
+
+
 
 Nearly every streaming analytics system stores processed data somewhere for further analysis, historical reference, or integration with BI tools.
 
